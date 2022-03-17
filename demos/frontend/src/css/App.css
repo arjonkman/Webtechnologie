@@ -2,17 +2,3 @@
 	margin: 0;
 	padding: 0;
 }
-
-.root {
-	display: flex;
-	justify-items: center;
-}
-
-.Header {
-	width: 100%;
-	display: flex;
-}
-
-.Body {
-	display: flex;
-}

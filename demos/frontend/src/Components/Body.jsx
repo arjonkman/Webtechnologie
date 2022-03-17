@@ -8,7 +8,7 @@ function Body() {
 
 	useEffect(() => {
 		fetch(
-			"http://localhost:5000/api")
+			"http://localhost:5000/api?amount=3")
 			.then((res) => res.json())
 			.then((json) => {
 				setData(json)
