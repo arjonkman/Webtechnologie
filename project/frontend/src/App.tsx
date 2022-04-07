@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
+import Chart from "./Components/Chart";
+import Portfolio from "./Components/Portfolio";
 import Login from "./Components/Login";
 import Register from "./Components/Register";
 
@@ -22,8 +24,8 @@ function App() {
       <section className="content">
         <Routes>
           <Route path="/" element={<></>} />
-          <Route path="/chart" element={<></>} />
-          <Route path="/portfolio" element={<></>} />
+          <Route path="/chart" element={<Chart />} />
+          <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>
