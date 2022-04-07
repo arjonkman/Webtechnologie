@@ -1,6 +1,0 @@
-Je kan per email oneindig veel gratis api keys aanvragen
-Dit kan door je achter je email-gebruikersnaam een + te zetten met wat willekeurige getallen
-voorbeeld: hanszimmer+123@gmail.com, hanszimmer+567@gmail.com
-
-De meeste mailclients zien dit als 2 andere emails, dit is alleen niet zo.
-Als er een email wordt verstuurd naar beide email adressen zullen deze emails binnenkomen in de mailbox van hanszimmer@gmail.com

@@ -16,16 +16,22 @@ function Login() {
 						<Form.Label>Password</Form.Label>
 						<Form.Control type="password" placeholder="Password" />
 					</Form.Group>
-					<Button variant="primary" type="submit">
-						Submit
-					</Button>
-					<Form.Text>
-						<Link to="/register">
-							<Button>
-								Register
-							</Button>
-						</Link>
-					</Form.Text>
+					<Form.Group>
+						<Row>
+							<Col>
+								<Button variant="primary" type="submit">
+									Submit
+								</Button>
+							</Col>
+							<Col>
+								<Form.Text>
+									<Link to="/register">
+										Register
+									</Link>
+								</Form.Text>
+							</Col>
+						</Row>
+					</Form.Group>
 				</Form>
 			</Col>
 		</Row>
