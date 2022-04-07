@@ -16,8 +16,11 @@ function Header() {
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="me-auto">
           <Nav.Link href="/">Home</Nav.Link>
-          <Nav.Link href="/analyse">Chart</Nav.Link>
-          <Nav.Link href="/export">Portfolio</Nav.Link>
+          <Nav.Link href="/chart">Chart</Nav.Link>
+          <Nav.Link href="/portfolio">Portfolio</Nav.Link>
+        </Nav>
+        <Nav>
+          <Nav.Link href="/login">Login</Nav.Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
