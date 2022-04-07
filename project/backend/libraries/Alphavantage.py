@@ -15,9 +15,8 @@ class Alpha:
                       for symbol in self.symbols]
         print(self.tasks)
 
-        self.thread()
-        # alpha = threading.Thread(target=self.thread)
-        # alpha.start()
+        alpha = threading.Thread(target=self.thread, daemon=True)
+        alpha.start()
 
     def thread(self):
         while not self.done:
@@ -41,6 +40,3 @@ class Alpha:
             symbol + '&interval=5min&apikey=' + key
         response = requests.get(url)
         return response.json()
-
-
-alpha = Alpha(keys=['UVXYOCOIO228DFM2'])

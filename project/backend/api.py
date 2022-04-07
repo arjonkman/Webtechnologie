@@ -1,11 +1,14 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import libraries.Functions as Functions
+from libraries.Functions import Functions
 from libraries.Alphavantage import Alpha
+
+# TODO Creating a Database
 
 app = Flask(__name__)
 CORS(app)
 alpha = Alpha(['UVXYOCOIO228DFM2'])
+functions = Functions('database.db')
 
 
 @app.route('/')
@@ -20,10 +23,10 @@ def api():
     # backend draait op meer versies gebruiken we een if elif statement
     print(request.args)
     if function == 'TIME_SERIES':
-        return jsonify(Functions.time_series(request.args))
+        return jsonify(functions.time_series(request.args))
     else:
         return jsonify({'message': 'Invalid request!'})
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=45457)
+    app.run(debug=True)
