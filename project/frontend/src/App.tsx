@@ -10,8 +10,6 @@ import Register from "./Components/Register";
 
 // Important: https://stackoverflow.com/questions/41956465/how-to-create-multiple-page-app-using-react
 
-// Import Bootstrap
-import "bootstrap/dist/css/bootstrap.min.css";
 // Import custom css
 import "./scss/App.scss";
 
