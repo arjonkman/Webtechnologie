@@ -22,21 +22,24 @@ class Collector:
         """
         while True:
             for symbol in self.symbols:
-                if symbol not in self.sequel.statement('SELECT symbol FROM stock'):
+                symbol = symbol.upper()
+                symbolsList = [x['symbol'] for x in self.sequel.statement(
+                    'SELECT symbol FROM stock')]
+                if symbol not in symbolsList:
                     try:
                         self.newSymbol(symbol)
                     except sqlite3.IntegrityError:
                         pass
                 json_data = self.data(symbol)
-                self.json_to_db(json_data)
-            sleep(10)
+                self.json_to_db(json_data, symbol)
+            sleep(300)
 
     def run(self):
         for symbol in self.symbols:
             if symbol not in self.sequel.statement('SELECT symbol FROM stock'):
                 self.newSymbol(symbol)
             json_data = self.data(symbol)
-            self.json_to_db(json_data)
+            self.json_to_db(json_data, symbol)
 
     def newSymbol(self, symbol):
         ticker = yf.Ticker(symbol)
@@ -49,7 +52,7 @@ class Collector:
         jsonData = pandas.DataFrame.to_json(data, orient='table')
         return jsonData
 
-    def json_to_db(self, json_data):
+    def json_to_db(self, json_data, symbol):
         jData = json.loads(json_data)
 
         with sqlite3.connect(self.database) as con:
@@ -64,7 +67,7 @@ class Collector:
 
                 try:
                     cur.execute(
-                        f'INSERT INTO time_series (date, symbol, open, high, low, close, volume) VALUES ("{time}", "{self.symbol}", "{openr}", "{high}", "{low}", "{close}", "{volume}")')
-                except:
+                        f'INSERT INTO time_series (date, symbol, open, high, low, close, volume) VALUES ("{time}", "{symbol}", "{openr}", "{high}", "{low}", "{close}", "{volume}")')
+                except sqlite3.IntegrityError:
                     pass
             con.commit()

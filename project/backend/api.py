@@ -29,7 +29,7 @@ def stocks():
     else:
         return jsonify({'status': 'error', 'error': 'Invalid request!'})
 
-    
+
 @app.route('/api/v1/account/')
 def account():
     function = request.args.get('function')
@@ -38,16 +38,16 @@ def account():
         if data["status"] == "success":
             sessions.append(data['session_id'])
         return jsonify(data)
-    
+
     elif function == 'LOGIN':
         data = functions.login(request.args)
         if data["status"] == "success":
             sessions.append(data['session_id'])
         return jsonify(data)
-    
+
     else:
         return jsonify({'status': 'error', 'error': 'Invalid request!'})
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
