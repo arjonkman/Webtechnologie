@@ -15,7 +15,8 @@ def index():
 
 @app.route('/api/data/<symbol>')
 def data(symbol):
-    database = symbol_to_database(f'{os.getcwd()}\database.db', symbol)
+    database = symbol_to_database(
+        f'{os.getcwd()}\\project\\backend\\database.db', symbol)
     database.run()
     return database.data()
 
