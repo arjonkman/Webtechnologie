@@ -1,13 +1,16 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from libraries.Sequel import Sequel
 from libraries.Functions import Functions
-import os
+from libraries.Collector import Collector
 
-# TODO Creating a Database
 app = Flask(__name__)
 CORS(app)
-functions = Functions('database.db')
+
+database = 'database.db'
+symbols = ['AAPL', 'MSFT', 'AMZN', 'GOOG']
+
+functions = Functions(database)
+collector = Collector(database, symbols=symbols, thread=True)
 
 
 @app.route('/')
@@ -15,16 +18,24 @@ def index():
     return jsonify({'message': 'You are having fun, arent you?'})
 
 
-@app.route('/api/v1/')
-def api():
+@app.route('/api/v1/stocks/')
+def stocks():
     function = request.args.get('function')
-    # Python heeft sinds 3.10 een switch statement mogelijkheid, om ervoor te zorgen dat de
-    # backend draait op meer versies gebruiken we een if elif statement
-    # print(request.args)
     if function == 'TIME_SERIES':
         return jsonify(functions.time_series(request.args))
     else:
-        return jsonify({'message': 'Invalid request!'})
+        return jsonify({'error': 'Invalid request!'})
+
+    
+@app.route('/api/v1/account')
+def account():
+    function = request.args.get('function')
+    if function == 'REGISTER':
+        ...
+    elif function == 'LOGIN':
+        ...
+    else:
+        return {'error': 'Invalid request!'}
 
 
 if __name__ == '__main__':
