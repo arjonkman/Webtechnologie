@@ -5,6 +5,7 @@ import pandas
 import sqlite3
 import json
 
+
 class Collector:
     def __init__(self, database, symbols=[], thread=False):
         self.database = database
