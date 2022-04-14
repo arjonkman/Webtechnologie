@@ -34,11 +34,11 @@ class Sequel:
         if self.statement(f'INSERT INTO account (firstname, lastname, balance, email, password) VALUES ("{fname}", "{lname}", "100000", "{email}", "{password}")') == 'error':
             return {'status': 'error', 'error': 'Could not create account'}
 
-        session_id = self.new_method(email)
+        session_id = self.idGen(email)
 
         return {'status': 'success', 'session_id': session_id}
 
-    def new_method(self, email):
+    def idGen(self, email):
         rnd_letters = os.urandom(16).encode('utf-8')
         session_id = md5(email.encode('utf-8') + rnd_letters).hexdigest()
         return session_id
@@ -47,7 +47,7 @@ class Sequel:
         if self.statement(f'SELECT * FROM account WHERE email = "{email}" AND password = "{password}"') == 'error':
             return {'status': 'error', 'error': 'Invalid login'}
 
-        session_id = self.new_method(email)
+        session_id = self.idGen(email)
         return {'status': 'success', 'session_id': session_id}
 
     def time_series(self, symbol):
