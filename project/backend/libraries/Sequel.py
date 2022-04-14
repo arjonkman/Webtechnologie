@@ -20,3 +20,7 @@ class Sequel:
 
     def time_series(self, symbol):
         return self.statement(f'')
+
+    def register(self, fname, lname, email, password):
+        # Check if the account already exists by email
+        ...

@@ -28,5 +28,14 @@ def api():
         return jsonify({'message': 'Invalid request!'})
 
 
+@app.route('/api/v1/account')
+def account():
+    function = request.args.get('function')
+    if function == 'register':
+        return jsonify(functions.register(request.args))
+    elif function == 'login':
+        return jsonify(functions.login(request.args))
+
+
 if __name__ == '__main__':
     app.run(debug=True)
