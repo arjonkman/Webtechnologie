@@ -25,7 +25,7 @@ CREATE TABLE `user_stock`(
 	FOREIGN KEY(`stock`) REFERENCES `stock`(`symbol`)
 );
 CREATE TABLE `stock`(
-	`symbol` TEXT NOT NULL,
+	`symbol` TEXT PRIMARY KEY NOT NULL,
 	`name` TEXT NOT NULL,
 	`sector` TEXT NOT NULL,
 	`description` TEXT NOT NULL

@@ -4,29 +4,44 @@ import yfinance as yf
 import pandas
 import sqlite3
 import json
+from libraries.Sequel import Sequel
 
 
 class Collector:
     def __init__(self, database, symbols=[], thread=False):
         self.database = database
         self.symbols = symbols
+        self.sequel = Sequel(database)
         self.thread = thread
         if self.thread:
-            t = threading.Thread(target=self.t_run, daemon=True).start()
+            t = threading.Thread(target=self.t_run, daemon=True)
+            t.start()
 
     def t_run(self):
         """Update database every 5 minutes
         """
         while True:
             for symbol in self.symbols:
+                if symbol not in self.sequel.statement('SELECT symbol FROM stock'):
+                    try:
+                        self.newSymbol(symbol)
+                    except sqlite3.IntegrityError:
+                        pass
                 json_data = self.data(symbol)
                 self.json_to_db(json_data)
-            sleep(300)
+            sleep(10)
 
     def run(self):
         for symbol in self.symbols:
+            if symbol not in self.sequel.statement('SELECT symbol FROM stock'):
+                self.newSymbol(symbol)
             json_data = self.data(symbol)
             self.json_to_db(json_data)
+
+    def newSymbol(self, symbol):
+        ticker = yf.Ticker(symbol)
+        self.sequel.statement(
+            f'INSERT INTO stock (symbol, name, sector, description) VALUES ("{symbol}", "{ticker.info["longName"]}", "{ticker.info["sector"]}", "{ticker.info["longBusinessSummary"]}")')
 
     def data(self, symbol):
         ticker = yf.Ticker(symbol)
