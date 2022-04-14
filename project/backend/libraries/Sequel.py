@@ -8,26 +8,21 @@ class Sequel:
         self.database = database
 
     def statement(self, statement):
-        ret = ''
-        with sqlite3.connect(self.database) as con:
-            cur = con.cursor()
-            try:
-                ret = cur.execute(statement)
-            except sqlite3.OperationalError as e:
-                print(e)
-                return 'error'
-            ret = tuple(ret)
-            con.commit()
-        try:
-            ret[1][0]
-            ret[0][1]
-        except IndexError:
-            ret = tuple([inner for outer in zip(*ret) for inner in outer])
-        return ret
+        def row_to_dict(cursor: sqlite3.Cursor, row: sqlite3.Row) -> dict:
+            data = {}
+            for idx, col in enumerate(cursor.description):
+                data[col[0]] = row[idx]
+            return data
+        
+        with sqlite3.connect(self.database) as conn:
+            conn.row_factory = row_to_dict
+            result = conn.execute(statement)
+            return result.fetchall()
+        
 
     def register(self, fname, lname, email, password):
         # Check for the email if it already exists
-        if self.statement(f'SELECT * FROM account WHERE email = "{email}"') == 'error':
+        if self.statement(f'SELECT * FROM account WHERE email = "{email}"') != []:
             return {'status': 'error', 'error': 'Account already exists'}
 
         # Add the new user to the database
@@ -44,7 +39,7 @@ class Sequel:
         return session_id
 
     def login(self, email, password):
-        if self.statement(f'SELECT * FROM account WHERE email = "{email}" AND password = "{password}"') == 'error':
+        if self.statement(f'SELECT * FROM account WHERE email = "{email}" AND password = "{password}"') == []:
             return {'status': 'error', 'error': 'Invalid login'}
 
         session_id = self.idGen(email)
