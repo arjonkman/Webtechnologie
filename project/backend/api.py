@@ -7,8 +7,7 @@ from libraries.Collector import Collector
 app = Flask(__name__)
 CORS(app)
 
-database = './database.db'
-database = os.path.abspath(database)
+database = os.path.abspath('./database.db')
 symbols = ['AAPL', 'MSFT', 'AMZN', 'GOOG']
 
 sessions = []
@@ -31,23 +30,23 @@ def stocks():
         return jsonify({'status': 'error', 'error': 'Invalid request!'})
 
     
-@app.route('/api/v1/account')
+@app.route('/api/v1/account/')
 def account():
     function = request.args.get('function')
     if function == 'REGISTER':
         data = functions.register(request.args)
         if data["status"] == "success":
             sessions.append(data['session_id'])
-        return data
+        return jsonify(data)
     
     elif function == 'LOGIN':
         data = functions.login(request.args)
         if data["status"] == "success":
             sessions.append(data['session_id'])
-        return data
+        return jsonify(data)
     
     else:
-        return {'error': 'Invalid request!'}
+        return jsonify({'status': 'error', 'error': 'Invalid request!'})
 
 
 if __name__ == '__main__':

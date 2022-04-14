@@ -18,7 +18,7 @@ class Functions:
         email = args.get('email')
         password = args.get('password')
         if fname is None or lname is None or email is None or password is None:
-            return {'error': 'Missing data'}
+            return {'status': 'error', 'error': 'Missing data'}
         data = self.sql.register(fname, lname, email, password)
         return data
     

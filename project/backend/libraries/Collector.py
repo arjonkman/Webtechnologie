@@ -10,7 +10,8 @@ class Collector:
         self.database = database
         self.symbols = symbols
         self.thread = thread
-        t = threading.Thread(target=self.t_run, daemon=True).start()
+        if self.thread:
+            t = threading.Thread(target=self.t_run, daemon=True).start()
 
     def t_run(self):
         """Update database every 5 minutes

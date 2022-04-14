@@ -45,6 +45,7 @@ class Sequel:
         
         rnd_letters = ''.join(choice(ascii_letters) for _ in range(26)).encode('utf-8')
         session_id = md5(email.encode('utf-8') + rnd_letters).hexdigest()
+        
         return {'status': 'success', 'session_id': session_id}
 
     def time_series(self, symbol):
