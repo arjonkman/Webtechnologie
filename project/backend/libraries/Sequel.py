@@ -46,4 +46,4 @@ class Sequel:
         return {'status': 'success', 'session_id': session_id}
 
     def time_series(self, symbol):
-        self.statement()
+        return self.statement(f'SELECT * FROM time_series WHERE symbol = "{symbol}" ORDER BY date DESC')
