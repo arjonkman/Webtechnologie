@@ -8,7 +8,7 @@ class Functions:
     def time_series(self, args):
         symbol = args.get('symbol')
         if symbol is None:
-            return {'error': 'No symbol provided'}
+            return {'status': 'error', 'error': 'No symbol provided'}
         data = self.sql.time_series(symbol)
         return data
 
@@ -21,3 +21,10 @@ class Functions:
             return {'error': 'Missing data'}
         data = self.sql.register(fname, lname, email, password)
         return data
+    
+    def login(self, args):
+        email = args.get('email')
+        password = args.get('password')
+        if email is None or password is None:
+            return {'error': 'Missing data'}
+        data = self.sql.login(email, password)

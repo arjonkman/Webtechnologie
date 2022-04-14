@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Formik } from "formik";
@@ -20,10 +21,16 @@ function Register() {
           onSubmit={
             (values, { setSubmitting }) => {
               values.password = sha256(values.password);
-              setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
-                setSubmitting(false);
-              }, 400);
+              fetch(`http://localhost:5000/api/v1/account?function=REGISTER&fname=${values.fname}&lname=${values.lname}&email=${values.email}&password=${values.password}`)
+                .then((res) => res.json())
+                .then((json) => {
+                  if (json.status == "success") {
+                    alert("Successfully registered!");
+                  } else {
+                    alert("Failed to register!");
+                  }
+                  setSubmitting(false);
+                });
             }
           }
           initialValues={{

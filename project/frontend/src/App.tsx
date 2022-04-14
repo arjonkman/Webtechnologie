@@ -14,8 +14,6 @@ import Register from "./Components/Register";
 import "./scss/App.scss";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
       <Header />

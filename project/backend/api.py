@@ -1,13 +1,17 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import os
 from libraries.Functions import Functions
 from libraries.Collector import Collector
 
 app = Flask(__name__)
 CORS(app)
 
-database = 'database.db'
+database = './database.db'
+database = os.path.abspath(database)
 symbols = ['AAPL', 'MSFT', 'AMZN', 'GOOG']
+
+sessions = []
 
 functions = Functions(database)
 collector = Collector(database, symbols=symbols, thread=True)
@@ -24,16 +28,24 @@ def stocks():
     if function == 'TIME_SERIES':
         return jsonify(functions.time_series(request.args))
     else:
-        return jsonify({'error': 'Invalid request!'})
+        return jsonify({'status': 'error', 'error': 'Invalid request!'})
 
     
 @app.route('/api/v1/account')
 def account():
     function = request.args.get('function')
     if function == 'REGISTER':
-        ...
+        data = functions.register(request.args)
+        if data["status"] == "success":
+            sessions.append(data['session_id'])
+        return data
+    
     elif function == 'LOGIN':
-        ...
+        data = functions.login(request.args)
+        if data["status"] == "success":
+            sessions.append(data['session_id'])
+        return data
+    
     else:
         return {'error': 'Invalid request!'}
 
