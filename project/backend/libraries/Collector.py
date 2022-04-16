@@ -42,9 +42,9 @@ class Collector:
             self.json_to_db(json_data, symbol)
 
     def newSymbol(self, symbol):
-        ticker = yf.Ticker(symbol)
+        ticker = yf.Ticker(symbol).info
         self.sequel.statement(
-            f'INSERT INTO stock (symbol, name, sector, description) VALUES ("{symbol}", "{ticker.info["longName"]}", "{ticker.info["sector"]}", "{ticker.info["longBusinessSummary"]}")')
+            f'INSERT INTO stock (symbol, name, sector, description) VALUES ("{symbol}", "{ticker["longName"]}", "{ticker["sector"]}", "{ticker["longBusinessSummary"]}")')
 
     def data(self, symbol):
         ticker = yf.Ticker(symbol)
