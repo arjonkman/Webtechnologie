@@ -2,6 +2,8 @@ import sqlite3
 from hashlib import md5
 import os
 
+import libraries.user_stock as user_stock
+
 
 class Sequel:
     def __init__(self, database):
@@ -13,12 +15,23 @@ class Sequel:
             for idx, col in enumerate(cursor.description):
                 data[col[0]] = row[idx]
             return data
-        
+
         with sqlite3.connect(self.database) as conn:
             conn.row_factory = row_to_dict
             result = conn.execute(statement)
             return result.fetchall()
-        
+
+    def buy(self, args):
+        stock = args.get('stock')
+        amount = args.get('amount')
+        user = args.get('user')
+        return user_stock.buy(stock, amount, user, self.database)
+
+    def sell(self, args):
+        stock = args.get('stock')
+        amount = args.get('amount')
+        id = args.get('id')
+        return user_stock.sell(stock, amount, id, self.database)
 
     def register(self, fname, lname, email, password):
         # Check for the email if it already exists

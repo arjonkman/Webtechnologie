@@ -26,6 +26,10 @@ def stocks():
     function = request.args.get('function')
     if function == 'TIME_SERIES':
         return jsonify(functions.time_series(request.args))
+    elif function == 'buy':
+        return jsonify(functions.buy(request.args))
+    elif function == 'sell':
+        return jsonify(functions.sell(request.args))
     else:
         return jsonify({'status': 'error', 'error': 'Invalid request!'})
 

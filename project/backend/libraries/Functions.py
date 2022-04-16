@@ -12,6 +12,23 @@ class Functions:
         data = self.sql.time_series(symbol)
         return data
 
+    def buy(self, args):
+        stock = args.get('stock')
+        amount = args.get('amount')
+        user = args.get('user')
+        if stock is None or amount is None or user is None:
+            return {'status': 'error', 'error': 'Missing data'}
+        data = self.sql.buy(stock, amount, user)
+        return data
+
+    def sell(self, args):
+        stock = args.get('stock')
+        amount = args.get('amount')
+        id = args.get('id')
+        if stock is None or amount is None or id is None:
+            return {'status': 'error', 'error': 'Missing data'}
+        return self.sql.sell(stock, amount, id)
+
     def register(self, args):
         fname = args.get('fname')
         lname = args.get('lname')
@@ -21,7 +38,7 @@ class Functions:
             return {'status': 'error', 'error': 'Missing data'}
         data = self.sql.register(fname, lname, email, password)
         return data
-    
+
     def login(self, args):
         email = args.get('email')
         password = args.get('password')
