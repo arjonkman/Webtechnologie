@@ -1,6 +1,7 @@
 import sqlite3
 from hashlib import md5
-import os
+from random import choice
+from string import ascii_letters
 
 import libraries.user_stock as user_stock
 
@@ -47,7 +48,8 @@ class Sequel:
         return {'status': 'success', 'session_id': session_id}
 
     def idGen(self, email):
-        rnd_letters = os.urandom(16).encode('utf-8')
+        rnd_letters = ''.join(choice(ascii_letters)
+                              for _ in range(26)).encode('utf-8')
         session_id = md5(email.encode('utf-8') + rnd_letters).hexdigest()
         return session_id
 
