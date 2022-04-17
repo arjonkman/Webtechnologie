@@ -30,7 +30,11 @@ def stocks():
         newData = DataFrame(data).to_csv(sep='\t')
         return newData
     elif function == 'BUY':
-        return jsonify(functions.buy(request.args))
+        session_id = request.args.get('session_id')
+        if session_id not in sessions:
+            return jsonify({'status': 'error', 'error': 'Invalid session!'})
+        id = sessions[session_id]
+        return jsonify(functions.buy(request.args.get('stock'), request.args.get('amount'), id))
     elif function == 'SELL':
         stock = request.args.get('stock')
         amount = request.args.get('amount')

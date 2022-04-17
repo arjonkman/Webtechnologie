@@ -12,10 +12,7 @@ class Functions:
         data = self.sql.time_series(symbol)
         return data
 
-    def buy(self, args):
-        stock = args.get('stock')
-        amount = args.get('amount')
-        user = args.get('user')
+    def buy(self, stock, amount, user):
         if stock is None or amount is None or user is None:
             return {'status': 'error', 'error': 'Missing data'}
         data = self.sql.buy(stock, amount, user)
