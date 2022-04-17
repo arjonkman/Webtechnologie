@@ -11,7 +11,7 @@ CREATE TABLE `account`(
 	`firstname` TEXT NOT NULL,
 	`lastname` TEXT NOT NULL,
 	`balance` FLOAT NOT NULL,
-	`email` TEXT NOT NULL,
+	`email` TEXT NOT NULL UNIQUE,
 	`password` TEXT NOT NULL
 );
 CREATE TABLE `user_stock`(
