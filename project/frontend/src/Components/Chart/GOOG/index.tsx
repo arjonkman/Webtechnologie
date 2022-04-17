@@ -4,7 +4,7 @@ import { Col, Row, Button, Form } from "react-bootstrap";
 import { Formik } from "formik";
 import { useCookies } from "react-cookie";
 
-function AAPL() {
+function GOOG() {
   const [cookies, setCookie] = useCookies(['session_id']);
 
   return (
@@ -25,7 +25,7 @@ function AAPL() {
             setSubmitting(false);
           }}
           initialValues={{
-            stock: "AAPL",
+            stock: "GOOG",
             number: "0",
           }}
         >
@@ -74,4 +74,4 @@ function AAPL() {
 
   );
 }
-export default AAPL;
+export default GOOG;

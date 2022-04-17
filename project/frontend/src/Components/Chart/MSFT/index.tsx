@@ -4,7 +4,7 @@ import { Col, Row, Button, Form } from "react-bootstrap";
 import { Formik } from "formik";
 import { useCookies } from "react-cookie";
 
-function AAPL() {
+function MSFT() {
   const [cookies, setCookie] = useCookies(['session_id']);
 
   return (
@@ -25,7 +25,7 @@ function AAPL() {
             setSubmitting(false);
           }}
           initialValues={{
-            stock: "AAPL",
+            stock: "MSFT",
             number: "0",
           }}
         >
@@ -65,8 +65,8 @@ function AAPL() {
           )}
         </Formik>
       </Col>
-      <div style={{ height: "85vh" }}>
-        <div style={{ backgroundColor: "#191c27", minHeight: "85vh" }}>
+      <div style={{ height: "86vh" }}>
+        <div style={{ backgroundColor: "#191c27", minHeight: "86vh" }}>
           <PriceChart />
         </div>
       </div>
@@ -74,4 +74,4 @@ function AAPL() {
 
   );
 }
-export default AAPL;
+export default MSFT;

@@ -47,7 +47,7 @@ class Sequel:
         try:
             # Add the new user to the database
             self.statement(
-                f'INSERT INTO account (firstname, lastname, balance, email, password) VALUES ("{fname}", "{lname}", "100,000", "{email}", "{password}")')
+                f'INSERT INTO account (firstname, lastname, balance, email, password) VALUES ("{fname}", "{lname}", "100000", "{email}", "{password}")')
         except:
             return {'status': 'error', 'error': 'Could not create account'}
 
