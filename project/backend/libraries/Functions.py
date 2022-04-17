@@ -21,10 +21,7 @@ class Functions:
         data = self.sql.buy(stock, amount, user)
         return data
 
-    def sell(self, args):
-        stock = args.get('stock')
-        amount = args.get('amount')
-        id = args.get('id')
+    def sell(self, stock, amount, id):
         if stock is None or amount is None or id is None:
             return {'status': 'error', 'error': 'Missing data'}
         return self.sql.sell(stock, amount, id)
@@ -59,4 +56,12 @@ class Functions:
         if email is None or password is None:
             return {'error': 'Missing data'}
         data = self.sql.login(email, password)
+        return data
+
+    def get_balance(self, id):
+        data = self.sql.balance(id)
+        return data
+
+    def get_stocks(self, id):
+        data = self.sql.stock_amount(id)
         return data

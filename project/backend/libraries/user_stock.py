@@ -8,7 +8,7 @@ def buy(stock, amount, user, database):
         # Verify that the user has enough money to buy the stock
         balance_account = database.statement(
             f'SELECT balance FROM account WHERE id = "{user}"')[0]["balance"]
-        total_price = amount * buy
+        total_price = int(amount) * buy
         if total_price > balance_account:
             return {'status': 'error', 'error': 'You do not have enough funds to buy this ammount of stock'}
 
@@ -18,7 +18,7 @@ def buy(stock, amount, user, database):
 
         # Update the user's balance
         database.statement(
-            f'UPDATE account SET balance = balance - "{amount*buy}" WHERE email = "{user}"')
+            f'UPDATE account SET balance = balance - "{total_price}" WHERE email = "{user}"')
         return {'status': 'success', 'message': 'Stock bought'}
     except Exception as e:
         return {f'status': 'error', 'error': {e}}
@@ -35,7 +35,7 @@ def sell(stock, amount, id, database):
             f'SELECT amount FROM user_stock WHERE id = "{id}"')[0]['amount']
 
         # Verify that the user has more or equal than the amount they are selling
-        newAmount = oldAmount - amount
+        newAmount = oldAmount - int(amount)
         if newAmount < 0:
             return {'status': 'error', 'error': 'You do not have enough stocks to sell this amount'}
 
@@ -47,7 +47,7 @@ def sell(stock, amount, id, database):
         user_account = database.statement(
             f'SELECT user FROM user_stock WHERE id = "{id}"')[0]["user"]
         database.statement(
-            f'UPDATE account SET balance = balance + "{amount*sell}" WHERE id = "{ user_account }"')
+            f'UPDATE account SET balance = balance + "{int(amount)*sell}" WHERE id = "{ user_account }"')
 
         return {'status': 'success', 'message': 'Stock sold'}
     except Exception as e:
@@ -58,7 +58,8 @@ def balance(database, id):
     try:
         # Get the user's balance
         userBalance = database.statement(
-            f'SELECT balance FROM account WHERE id = "{id}"')[0]['balance']
+            f'SELECT balance FROM account WHERE id="{id}"')[0]['balance']
+        print(userBalance)
         return {'status': 'success', 'message': f'{userBalance}'}
     except Exception as e:
         return {f'status': 'error', 'error': {e}}
@@ -68,7 +69,19 @@ def stock_amount(database, id):
     try:
         # Get the user's balance
         userStocks = database.statement(
-            f'SELECT amount FROM user_stock WHERE id = "{id}"')[0]['amount']
-        return {'status': 'success', 'message': f'{userStocks}'}
+            f'SELECT * FROM user_stock WHERE user = "{id}" ORDER BY id DESC')
+        if userStocks == []:
+            return {'status': 'error', 'error': 'You do not have any stocks'}
+        return userStocks
+    except Exception as e:
+        return {f'status': 'error', 'error': {e}}
+
+
+def all_stock(database, user):
+    try:
+        # Get the user's balance
+        balance = database.statement(
+            f'SELECT * FROM user_stock WHERE user = "{user}"')
+        return {'status': 'success', 'message': f'{balance}'}
     except Exception as e:
         return {f'status': 'error', 'error': {e}}

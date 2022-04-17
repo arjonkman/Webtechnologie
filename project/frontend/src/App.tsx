@@ -7,6 +7,7 @@ import Chart from "./Components/Chart";
 import Portfolio from "./Components/Portfolio";
 import Login from "./Components/Login";
 import Register from "./Components/Register";
+import Stocks from "./Components/Portfolio/stocks";
 
 // Important: https://stackoverflow.com/questions/41956465/how-to-create-multiple-page-app-using-react
 
@@ -24,6 +25,7 @@ function App() {
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/portfolio/stocks" element={<Stocks />} />
         </Routes>
       </section>
       <Footer />

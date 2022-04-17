@@ -29,10 +29,15 @@ def stocks():
         data = functions.time_series(request.args)
         newData = DataFrame(data).to_csv(sep='\t')
         return newData
-    elif function == 'buy':
+    elif function == 'BUY':
         return jsonify(functions.buy(request.args))
-    elif function == 'sell':
-        return jsonify(functions.sell(request.args))
+    elif function == 'SELL':
+        stock = request.args.get('stock')
+        amount = request.args.get('amount')
+        id = request.args.get('id')
+        data = functions.sell(stock, amount, id)
+        print(data)
+        return data
     else:
         return jsonify({'status': 'error', 'error': 'Invalid request!'})
 
@@ -45,18 +50,35 @@ def account():
         if data["status"] == "success":
             sessions[data['session_id']] = data['id']
         return jsonify(data)
-    
+
     elif function == 'LOGIN':
         data = functions.login(request.args)
         if data["status"] == "success":
             sessions[data['session_id']] = data['id']
         return jsonify(data)
-    
+
     elif function == 'LOGOUT':
         session_id = request.args.get('session_id')
         print(session_id)
         sessions.pop(session_id)
         return jsonify({'status': 'Succesfully logged out!'})
+
+    elif function == 'BALANCE':
+        session_id = request.args.get('session_id')
+        if session_id not in sessions:
+            return jsonify({'status': 'error', 'error': 'Invalid session!'})
+        id = sessions[session_id]
+        data = functions.get_balance(id)
+        return jsonify(data)
+    elif function == 'STOCKS':
+        session_id = request.args.get('session_id')
+        if session_id not in sessions:
+            return jsonify({'status': 'error', 'error': 'Invalid session!'})
+        id = sessions[session_id]
+        data = functions.get_stocks(id)
+        newData = DataFrame(data).to_csv(sep='\t')
+        print(newData)
+        return newData
 
     else:
         return jsonify({'status': 'error', 'error': 'Invalid request!'})

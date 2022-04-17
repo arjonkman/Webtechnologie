@@ -21,20 +21,14 @@ class Sequel:
             result = conn.execute(statement)
             return result.fetchall()
 
-    def buy(self, args):
-        # Get the stock the user wants to buy
-        stock = args.get('stock')
-        amount = args.get('amount')
-        user = args.get('user')
-        return user_stock.buy(stock, amount, user, self.database)
+    def buy(self, stock, amount, user):
+        return user_stock.buy(stock, amount, user, self)
 
-    def sell(self, args):
+    def sell(self, stock, amount, id):
         # Get the stock the user wants to sell
-        stock = args.get('stock')
-        amount = args.get('amount')
-        id = args.get('id')
-        return user_stock.sell(stock, amount, id, self.database)
-    
+
+        return user_stock.sell(stock, amount, id, self)
+
     def idGen(self, email):
         rnd_letters = ''.join(choice(ascii_letters)
                               for _ in range(26)).encode('utf-8')
@@ -43,22 +37,23 @@ class Sequel:
 
     def balance(self, user):
         # Get the balance of the user
-        return user_stock.balance(user, self.database)
+        return user_stock.balance(self, user)
 
-    def get_user_stocks(self, user):
+    def stock_amount(self, user):
         # Get all the stocks the user owns
-        return user_stock.stock_amount(user, self.database)
+        return user_stock.stock_amount(self, user)
 
     def register(self, fname, lname, email, password):
         try:
             # Add the new user to the database
             self.statement(
-                f'INSERT INTO account (firstname, lastname, balance, email, password) VALUES ("{fname}", "{lname}", "100000", "{email}", "{password}")')
+                f'INSERT INTO account (firstname, lastname, balance, email, password) VALUES ("{fname}", "{lname}", "100,000", "{email}", "{password}")')
         except:
             return {'status': 'error', 'error': 'Could not create account'}
-        
+
         # Get the user's id
-        user_id = self.statement(f'SELECT id FROM account WHERE email = "{email}"')[0]['id']
+        user_id = self.statement(
+            f'SELECT id FROM account WHERE email = "{email}"')[0]['id']
 
         session_id = self.idGen(email)
 
@@ -67,8 +62,9 @@ class Sequel:
     def login(self, email, password):
         if self.statement(f'SELECT * FROM account WHERE email = "{email}" AND password = "{password}"') == []:
             return {'status': 'error', 'error': 'Invalid login'}
-        
-        account_id = self.statement(f'SELECT id FROM account WHERE email = "{email}"')[0]['id']
+
+        account_id = self.statement(
+            f'SELECT id FROM account WHERE email = "{email}"')[0]['id']
 
         session_id = self.idGen(email)
         return {'status': 'success', 'session_id': session_id, 'id': account_id}
