@@ -5,7 +5,6 @@ function Header() {
   const [cookies, setCookie, removeCookie] = useCookies(['session_id']);
 
 
-  console.log(cookies.session_id);
   return (
     <Navbar
       collapseOnSelect

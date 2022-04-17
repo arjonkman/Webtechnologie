@@ -36,7 +36,6 @@ def stocks():
         amount = request.args.get('amount')
         id = request.args.get('id')
         data = functions.sell(stock, amount, id)
-        print(data)
         return data
     else:
         return jsonify({'status': 'error', 'error': 'Invalid request!'})
@@ -59,7 +58,6 @@ def account():
 
     elif function == 'LOGOUT':
         session_id = request.args.get('session_id')
-        print(session_id)
         sessions.pop(session_id)
         return jsonify({'status': 'Succesfully logged out!'})
 
@@ -77,7 +75,6 @@ def account():
         id = sessions[session_id]
         data = functions.get_stocks(id)
         newData = DataFrame(data).to_csv(sep='\t')
-        print(newData)
         return newData
 
     else:

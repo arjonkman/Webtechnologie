@@ -1,4 +1,3 @@
-import React from 'react';	
 import { useCookies } from 'react-cookie';
 import { useState, useEffect } from 'react';
 import { tsvParse } from "d3-dsv";
@@ -26,7 +25,7 @@ export default function Stocks() {
         UpdateData(cookies, setStocks);
     }, []);
     return (
-        <div>
+        <div className="pt-3 px-5">
             <h1>Stocks</h1>
             <table className="table table-striped">
                 <thead>

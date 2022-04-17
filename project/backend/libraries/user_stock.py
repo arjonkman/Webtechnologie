@@ -3,7 +3,6 @@ def buy(stock, amount, user, database):
         # Get the current stock price
         buy = database.statement(
             f'SELECT close FROM time_series WHERE symbol = "{stock}" ORDER BY date DESC LIMIT 1')[0]['close']
-        print(buy)
 
         # Verify that the user has enough money to buy the stock
         balance_account = database.statement(
@@ -17,8 +16,9 @@ def buy(stock, amount, user, database):
             f'INSERT INTO user_stock (amount, buy, sell, stock, user) VALUES ("{amount}", "{buy}", 0,"{stock}", "{user}")')
 
         # Update the user's balance
-        database.statement(
-            f'UPDATE account SET balance = balance - "{total_price}" WHERE email = "{user}"')
+        newbalance = float(balance_account) - float(total_price)
+        data = database.statement(
+            f'UPDATE account SET balance="{newbalance}" WHERE id="{user}"')
         return {'status': 'success', 'message': 'Stock bought'}
     except Exception as e:
         return {f'status': 'error', 'error': {e}}
@@ -59,7 +59,6 @@ def balance(database, id):
         # Get the user's balance
         userBalance = database.statement(
             f'SELECT balance FROM account WHERE id="{id}"')[0]['balance']
-        print(userBalance)
         return {'status': 'success', 'message': f'{userBalance}'}
     except Exception as e:
         return {f'status': 'error', 'error': {e}}
