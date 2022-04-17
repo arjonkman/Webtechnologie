@@ -23,16 +23,26 @@ class Sequel:
             return result.fetchall()
 
     def buy(self, args):
+        # Get the stock the user wants to buy
         stock = args.get('stock')
         amount = args.get('amount')
         user = args.get('user')
         return user_stock.buy(stock, amount, user, self.database)
 
     def sell(self, args):
+        # Get the stock the user wants to sell
         stock = args.get('stock')
         amount = args.get('amount')
         id = args.get('id')
         return user_stock.sell(stock, amount, id, self.database)
+
+    def balance(self, user):
+        # Get the balance of the user
+        return user_stock.balance(user, self.database)
+
+    def get_user_stocks(self, user):
+        # Get all the stocks the user owns
+        return user_stock.stock_amount(user, self.database)
 
     def register(self, fname, lname, email, password):
         # Check for the email if it already exists

@@ -29,6 +29,20 @@ class Functions:
             return {'status': 'error', 'error': 'Missing data'}
         return self.sql.sell(stock, amount, id)
 
+    def balance(self, args):
+        user = args.get('user')
+        if user is None:
+            return {'error': 'Missing data'}
+        data = self.sql.balance(user)
+        return data
+
+    def stock_amount(self, args):
+        user = args.get('user')
+        if user is None:
+            return {'error': 'Missing data'}
+        data = self.sql.stock_amount(user)
+        return data
+
     def register(self, args):
         fname = args.get('fname')
         lname = args.get('lname')
