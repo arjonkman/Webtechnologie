@@ -1,14 +1,13 @@
 import json
 import sqlite3
 import threading
+from datetime import date, datetime
 from time import sleep
 
 import pandas
 import yfinance as yf
 
 from libraries.Sequel import Sequel
-
-from datetime import date, datetime
 
 
 class Collector:
