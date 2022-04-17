@@ -65,8 +65,8 @@ function GOOG() {
           )}
         </Formik>
       </Col>
-      <div style={{ height: "85vh" }}>
-        <div style={{ backgroundColor: "#191c27", minHeight: "85vh" }}>
+      <div style={{ height: "86.3vh" }}>
+        <div style={{ backgroundColor: "#191c27", minHeight: "86.3vh" }}>
           <PriceChart />
         </div>
       </div>

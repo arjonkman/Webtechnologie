@@ -65,8 +65,8 @@ function MSFT() {
           )}
         </Formik>
       </Col>
-      <div style={{ height: "86vh" }}>
-        <div style={{ backgroundColor: "#191c27", minHeight: "86vh" }}>
+      <div style={{ height: "86.3vh" }}>
+        <div style={{ backgroundColor: "#191c27", minHeight: "86.3vh" }}>
           <PriceChart />
         </div>
       </div>
