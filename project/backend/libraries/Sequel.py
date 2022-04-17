@@ -45,17 +45,14 @@ class Sequel:
         return user_stock.stock_amount(user, self.database)
 
     def register(self, fname, lname, email, password):
-        # Check for the email if it already exists
-        if self.statement(f'SELECT * FROM account WHERE email = "{email}"') != []:
-            return {'status': 'error', 'error': 'Account already exists'}
-
-        # Add the new user to the database
-        if self.statement(f'INSERT INTO account (firstname, lastname, balance, email, password) VALUES ("{fname}", "{lname}", "100000", "{email}", "{password}")') == 'error':
+        try:
+            # Add the new user to the database
+            self.statement(
+                f'INSERT INTO account (firstname, lastname, balance, email, password) VALUES ("{fname}", "{lname}", "100000", "{email}", "{password}")')
+            session_id = self.idGen(email)
+            return {'status': 'success', 'session_id': session_id}
+        except:
             return {'status': 'error', 'error': 'Could not create account'}
-
-        session_id = self.idGen(email)
-
-        return {'status': 'success', 'session_id': session_id}
 
     def idGen(self, email):
         rnd_letters = ''.join(choice(ascii_letters)
