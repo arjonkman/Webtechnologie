@@ -1,8 +1,8 @@
-import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
+import Home from "./Components/Home";
 import Chart from "./Components/Chart";
 import Portfolio from "./Components/Portfolio";
 import Login from "./Components/Login";
@@ -19,7 +19,7 @@ function App() {
       <Header />
       <section className="content">
         <Routes>
-          <Route path="/" element={<></>} />
+          <Route path="/" element={<Home />} />
           <Route path="/chart" element={<Chart />} />
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/login" element={<Login />} />
