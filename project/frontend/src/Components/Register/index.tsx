@@ -1,15 +1,16 @@
-import { useState } from 'react';
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { sha256 } from "js-sha256";
 
+import "./register.css";
+
 const schema = yup.object({
-  fname: yup.string().required(),
-  lname: yup.string().required(),
-  email: yup.string().email(),
-  password: yup.string().required(),
+  fname: yup.string().required("First name is required"),
+  lname: yup.string().required("Last name is required"),
+  email: yup.string().email().required("Email is required"),
+  password: yup.string().min(10).max(100).required("Password is required"),
 });
 
 function Register() {
@@ -43,6 +44,8 @@ function Register() {
           {({
             handleSubmit,
             handleChange,
+            handleBlur,
+            touched,
             values,
             errors,
             isValid,
@@ -58,10 +61,16 @@ function Register() {
                       name="fname"
                       type="text"
                       placeholder="First name"
+                      value={values.fname}
                       onChange={handleChange}
-                      isInvalid={!!errors.fname}
+                      onBlur={handleBlur}
+                      className={touched.fname && errors.fname ? "error" : undefined}
                     />
                     <label htmlFor="fname">First name</label>
+                    {touched.fname && errors.fname ? (
+                      <div className="error-message text-center pb-2">{errors.fname}</div>
+                      ): null
+                    }
                   </Form.Floating>
                 </Col>
                 <Col md={6} sm={6} xs={12}>
@@ -72,10 +81,16 @@ function Register() {
                       name="lname"
                       type="text"
                       placeholder="Last name"
+                      value={values.lname}
                       onChange={handleChange}
-                      isInvalid={!!errors.lname}
+                      onBlur={handleBlur}
+                      className={touched.lname && errors.lname ? "error" : undefined}
                     />
                     <label htmlFor="lname">Last name</label>
+                    {touched.lname && errors.lname ? (
+                      <div className="error-message text-center pb-2">{errors.lname}</div>
+                      ): null
+                    }
                   </Form.Floating>
                 </Col>
                 <Col md={12}>
@@ -86,21 +101,34 @@ function Register() {
                       name="email"
                       type="email"
                       placeholder="Email"
+                      value={values.email}
                       onChange={handleChange}
-                      isInvalid={!!errors.email}
+                      onBlur={handleBlur}
+                      className={touched.email && errors.email ? "error" : undefined}
                     />
                     <label htmlFor="email">Email</label>
+                    {touched.email && errors.email ? (
+                      <div className="error-message text-center pb-2">{errors.email}</div>
+                      ): null
+                    }
                   </Form.Floating>
                   <Form.Floating className="mb-2">
                     <Form.Control
+                      required
                       id="password"
                       name="password"
                       type="password"
                       placeholder="Password"
+                      value={values.password}
                       onChange={handleChange}
-                      isInvalid={!!errors.password}
+                      onBlur={handleBlur}
+                      className={touched.password && errors.password ? "error" : undefined}
                     />
                     <label htmlFor="password">Password</label>
+                    {touched.password && errors.password ? (
+                      <div className="error-message text-center pb-2">{errors.password}</div>
+                      ): null
+                    }
                   </Form.Floating>
                 </Col>
                 <Col md={6}>

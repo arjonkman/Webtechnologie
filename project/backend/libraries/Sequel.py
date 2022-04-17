@@ -33,6 +33,12 @@ class Sequel:
         amount = args.get('amount')
         id = args.get('id')
         return user_stock.sell(stock, amount, id, self.database)
+    
+    def idGen(self, email):
+        rnd_letters = ''.join(choice(ascii_letters)
+                              for _ in range(26)).encode('utf-8')
+        session_id = md5(email.encode('utf-8') + rnd_letters).hexdigest()
+        return session_id
 
     def register(self, fname, lname, email, password):
         # Check for the email if it already exists
@@ -42,16 +48,13 @@ class Sequel:
         # Add the new user to the database
         if self.statement(f'INSERT INTO account (firstname, lastname, balance, email, password) VALUES ("{fname}", "{lname}", "100000", "{email}", "{password}")') == 'error':
             return {'status': 'error', 'error': 'Could not create account'}
+        
+        # Get the user's id
+        user_id = self.statement(f'SELECT id FROM account WHERE email = "{email}"')[0]['id']
 
         session_id = self.idGen(email)
 
-        return {'status': 'success', 'session_id': session_id}
-
-    def idGen(self, email):
-        rnd_letters = ''.join(choice(ascii_letters)
-                              for _ in range(26)).encode('utf-8')
-        session_id = md5(email.encode('utf-8') + rnd_letters).hexdigest()
-        return session_id
+        return {'status': 'success', 'session_id': session_id, 'id': user_id}
 
     def login(self, email, password):
         if self.statement(f'SELECT * FROM account WHERE email = "{email}" AND password = "{password}"') == []:

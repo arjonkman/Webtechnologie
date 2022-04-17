@@ -40,13 +40,15 @@ def account():
     if function == 'REGISTER':
         data = functions.register(request.args)
         if data["status"] == "success":
-            sessions.append(data['session_id'])
+            session_object = {'session': data['session_id'], 'user': data['id']}
+            sessions.append(session_object)
         return jsonify(data)
 
     elif function == 'LOGIN':
         data = functions.login(request.args)
         if data["status"] == "success":
-            sessions.append(data['session_id'])
+            session_object = {'session': data['session_id'], 'user': data['id']}
+            sessions.append(session_object)
         return jsonify(data)
 
     else:

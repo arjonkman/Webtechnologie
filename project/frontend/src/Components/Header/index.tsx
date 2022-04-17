@@ -11,7 +11,7 @@ function Header() {
       sticky="top"
       className="px-4"
     >
-      <Navbar.Brand href="/">Bart Stonks</Navbar.Brand>
+      <Navbar.Brand href="/">BartStonks</Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="me-auto">

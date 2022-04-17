@@ -1,0 +1,12 @@
+.error {
+    border: 2px solid #FF6565;
+}
+
+.error:focus {
+	border: 2px solid #FF6565;
+	box-shadow: 0 0 8px #FF6565;
+}
+
+.error-message {
+	color: #FF6565;
+}
