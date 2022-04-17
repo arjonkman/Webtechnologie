@@ -42,7 +42,7 @@ export default function PriceChartSelection() {
                 </Card>
             </Col>
           </Row>
-          <Row className="justify-content-center">
+          <Row className="justify-content-center pt-3">
             <Col className="text-center" xl={6} md={8} sm={12}>
               <Card className="text-center">
                 <Card.Body>
