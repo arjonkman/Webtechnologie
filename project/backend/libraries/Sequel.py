@@ -71,6 +71,3 @@ class Sequel:
 
     def time_series(self, symbol):
         return self.statement(f'SELECT close, open, high, low, date, volume FROM time_series WHERE symbol = "{symbol}" ORDER BY date ASC')
-    
-    def get_symbols(self):
-        return self.statement('SELECT symbol FROM time_series')
