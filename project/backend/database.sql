@@ -11,7 +11,7 @@ CREATE TABLE `account`(
 	`firstname` TEXT NOT NULL,
 	`lastname` TEXT NOT NULL,
 	`balance` FLOAT NOT NULL,
-	`email` TEXT NOT NULL,
+	`email` TEXT NOT NULL UNIQUE,
 	`password` TEXT NOT NULL
 );
 CREATE TABLE `user_stock`(
@@ -25,13 +25,13 @@ CREATE TABLE `user_stock`(
 	FOREIGN KEY(`stock`) REFERENCES `stock`(`symbol`)
 );
 CREATE TABLE `stock`(
-	`symbol` TEXT NOT NULL,
+	`symbol` TEXT PRIMARY KEY NOT NULL,
 	`name` TEXT NOT NULL,
 	`sector` TEXT NOT NULL,
 	`description` TEXT NOT NULL
 );
 CREATE TABLE `time_series`(
-	`date` DATETIME NOT NULL,
+	`date` TEXT NOT NULL,
 	`symbol` TEXT NOT NULL,
 	`open` FLOAT NOT NULL,
 	`high` FLOAT NOT NULL,
