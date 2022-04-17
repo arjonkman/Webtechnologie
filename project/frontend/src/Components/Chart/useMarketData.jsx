@@ -34,14 +34,14 @@ const useInterval = (callback, delay) => {
   return intervalRef;
 };
 
-export function useMarketData(dataSet = "MINUTES", updating = false) {
+export function useMarketData(dataSet = "AAPL", updating = false) {
   const [data, setData] = useState();
   const [length, setLength] = useState(500);
 
   useEffect(() => {
     if (!data) {
       fetch(
-        `http://localhost:5000/api/v1/stocks?function=TIME_SERIES&symbol=AAPL`
+        `http://localhost:5000/api/v1/stocks?function=TIME_SERIES&symbol=${dataSet}`
       )
         .then((response) => response.text())
         .then((data) => tsvParse(data, parseData()))
