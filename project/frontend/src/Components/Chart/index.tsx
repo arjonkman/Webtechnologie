@@ -1,5 +1,5 @@
 import React from "react";
-import { PriceChart } from "./PriceChart";
+import { PriceChart } from "./PriceChart.jsx";
 
 const App = () => (
   <div style={{ height: "200vh" }}>
