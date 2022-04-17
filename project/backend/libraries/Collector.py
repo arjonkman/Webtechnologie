@@ -63,9 +63,10 @@ class Collector:
         with sqlite3.connect(self.database) as con:
             cur = con.cursor()
             for row in jData['data']:
+                # time = row['Datetime']
                 time = datetime.strptime(
                     row['Datetime'], '%Y-%m-%dT%H:%M:%S.%fZ')
-                time = time.strftime('%Y-%m-%d %H:%M:%S')
+                time = int(time.timestamp())
                 openr = row['Open']
                 high = row['High']
                 low = row['Low']

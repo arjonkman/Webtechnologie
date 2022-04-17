@@ -46,6 +46,11 @@ export function useMarketData(dataSet = "MINUTES", updating = false) {
         .then((response) => response.text())
         .then((data) => tsvParse(data, parseData()))
         .then((data) => {
+          // log all dates in the data
+          
+          data.map((d) => {
+            d.date.setUTCSeconds(d.date - 1641540)
+          })
           setData(data);
         });
     }

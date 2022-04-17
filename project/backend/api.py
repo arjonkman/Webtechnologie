@@ -28,12 +28,6 @@ def stocks():
     if function == 'TIME_SERIES':
         data = functions.time_series(request.args)
         newData = DataFrame(data).to_csv(sep='\t')
-        # with open('stocks.tsv', 'w', newline='') as tsvF:
-        #     tsvWriter = csv.writer(tsvF, delimiter='\t')
-        #     tsvWriter.writerow(['close', 'open', 'high',
-        #                        'low', 'date', 'volume'])
-        #     for item in data:
-        #         tsvWriter.writerow(item.values())
         return newData
     elif function == 'buy':
         return jsonify(functions.buy(request.args))
