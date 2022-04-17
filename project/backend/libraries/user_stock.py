@@ -67,8 +67,8 @@ def balance(database, id):
 def stock_amount(database, id):
     try:
         # Get the user's balance
-        userBalance = database.statement(
+        userStocks = database.statement(
             f'SELECT amount FROM user_stock WHERE id = "{id}"')[0]['amount']
-        return {'status': 'success', 'message': f'{userBalance}'}
+        return {'status': 'success', 'message': f'{userStocks}'}
     except Exception as e:
         return {f'status': 'error', 'error': {e}}
