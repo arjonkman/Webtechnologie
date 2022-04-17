@@ -46,8 +46,7 @@ export function useMarketData(dataSet = "MINUTES", updating = false) {
         .then((response) => response.text())
         .then((data) => tsvParse(data, parseData()))
         .then((data) => {
-          setData(data['columns'][0]);
-          console.log(data['columns'][0]);
+          setData(data);
         });
     }
   }, [data, dataSet, setData]);
@@ -57,7 +56,7 @@ export function useMarketData(dataSet = "MINUTES", updating = false) {
   }, 1000);
 
   return {
-    data: data,
+    data: updating ? data?.slice(0, length + 1) : data,
     loaded: Boolean(data)
   };
 }

@@ -3,7 +3,7 @@ from flask_cors import CORS
 import os
 from libraries.Functions import Functions
 from libraries.Collector import Collector
-import json
+from pandas import DataFrame
 
 app = Flask(__name__)
 CORS(app)
@@ -26,7 +26,15 @@ def index():
 def stocks():
     function = request.args.get('function')
     if function == 'TIME_SERIES':
-        return jsonify(functions.time_series(request.args))
+        data = functions.time_series(request.args)
+        newData = DataFrame(data).to_csv(sep='\t')
+        # with open('stocks.tsv', 'w', newline='') as tsvF:
+        #     tsvWriter = csv.writer(tsvF, delimiter='\t')
+        #     tsvWriter.writerow(['close', 'open', 'high',
+        #                        'low', 'date', 'volume'])
+        #     for item in data:
+        #         tsvWriter.writerow(item.values())
+        return newData
     elif function == 'buy':
         return jsonify(functions.buy(request.args))
     elif function == 'sell':
