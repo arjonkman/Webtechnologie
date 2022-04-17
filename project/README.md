@@ -1,8 +1,14 @@
 # Installatie
 
-In de frontend folder: npm install, daarna: npm run dev
+##### In de frontend folder
 
-In de backend folder: pip install -r requirements.txt, daarna python api.py
+```npm install```
+```npm run dev```
+
+##### In de backend folder
+
+```pip install -r requirements.txt```
+```python api.py```
 
 Getest op 4 machines, alle 4 werkten goed.
 
