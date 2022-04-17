@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { sha256 } from "js-sha256";
+import { useCookies } from "react-cookie";
 
 import "./login.css";
 
@@ -12,18 +13,25 @@ const schema = yup.object({
 });
 
 function Login() {
+  const [cookies, setCookie] = useCookies(['session_id']);
+
+  if (cookies.session_id != undefined) {
+    window.location.href = "/";
+    return (<></>);
+  }
+
   return (
     <Row className="justify-content-center mt-3">
       <Col lg={4} md={6} xs={12}>
         <Formik
           validationSchema={schema}
           onSubmit={(values, { setSubmitting }) => {
-            values.password = sha256(values.password);
-            fetch(`http://localhost:5000/api/v1/account?function=LOGIN&email=${values.email}&password=${values.password}`)
+            let password_sha256 = sha256(values.password);
+            fetch(`http://localhost:5000/api/v1/account?function=LOGIN&email=${values.email}&password=${password_sha256}`)
               .then((res) => res.json())
               .then((json) => {
                 if (json.status == "success") {
-                  alert("Successfully Logged in!");
+                  setCookie('session_id', json.session_id, { path: '/' });
                 } else {
                   alert("Failed to Log in!");
                 }

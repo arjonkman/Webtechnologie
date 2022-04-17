@@ -11,7 +11,7 @@ CORS(app)
 database = os.path.abspath('./database.db')
 symbols = ['AAPL', 'MSFT', 'AMZN', 'GOOG']
 
-sessions = []
+sessions = {}
 
 functions = Functions(database)
 collector = Collector(database, symbols=symbols, thread=True)
@@ -43,16 +43,20 @@ def account():
     if function == 'REGISTER':
         data = functions.register(request.args)
         if data["status"] == "success":
-            session_object = {'session': data['session_id'], 'user': data['id']}
-            sessions.append(session_object)
+            sessions[data['session_id']] = data['id']
         return jsonify(data)
-
+    
     elif function == 'LOGIN':
         data = functions.login(request.args)
         if data["status"] == "success":
-            session_object = {'session': data['session_id'], 'user': data['id']}
-            sessions.append(session_object)
+            sessions[data['session_id']] = data['id']
         return jsonify(data)
+    
+    elif function == 'LOGOUT':
+        session_id = request.args.get('session_id')
+        print(session_id)
+        sessions.pop(session_id)
+        return jsonify({'status': 'Succesfully logged out!'})
 
     else:
         return jsonify({'status': 'error', 'error': 'Invalid request!'})

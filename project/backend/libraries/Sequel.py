@@ -54,8 +54,6 @@ class Sequel:
             # Add the new user to the database
             self.statement(
                 f'INSERT INTO account (firstname, lastname, balance, email, password) VALUES ("{fname}", "{lname}", "100000", "{email}", "{password}")')
-            session_id = self.idGen(email)
-            return {'status': 'success', 'session_id': session_id}
         except:
             return {'status': 'error', 'error': 'Could not create account'}
         
@@ -69,9 +67,11 @@ class Sequel:
     def login(self, email, password):
         if self.statement(f'SELECT * FROM account WHERE email = "{email}" AND password = "{password}"') == []:
             return {'status': 'error', 'error': 'Invalid login'}
+        
+        account_id = self.statement(f'SELECT id FROM account WHERE email = "{email}"')[0]['id']
 
         session_id = self.idGen(email)
-        return {'status': 'success', 'session_id': session_id}
+        return {'status': 'success', 'session_id': session_id, 'id': account_id}
 
     def time_series(self, symbol):
         return self.statement(f'SELECT close, open, high, low, date, volume FROM time_series WHERE symbol = "{symbol}" ORDER BY date ASC')

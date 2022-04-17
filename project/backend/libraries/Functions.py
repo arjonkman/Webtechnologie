@@ -59,3 +59,4 @@ class Functions:
         if email is None or password is None:
             return {'error': 'Missing data'}
         data = self.sql.login(email, password)
+        return data

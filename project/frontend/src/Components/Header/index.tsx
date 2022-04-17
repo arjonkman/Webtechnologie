@@ -1,7 +1,11 @@
 import { Navbar, Nav } from 'react-bootstrap'
+import { useCookies } from "react-cookie";
 
 function Header() {
+  const [cookies, setCookie, removeCookie] = useCookies(['session_id']);
 
+
+  console.log(cookies.session_id);
   return (
     <Navbar
       collapseOnSelect
@@ -19,9 +23,19 @@ function Header() {
           <Nav.Link href="/chart">Chart</Nav.Link>
           <Nav.Link href="/portfolio">Portfolio</Nav.Link>
         </Nav>
+        { cookies.session_id == undefined ?
         <Nav>
           <Nav.Link href="/login">Login</Nav.Link>
         </Nav>
+        :
+        <Nav>
+          <Nav.Link onClick={() => {
+              fetch(`http://localhost:5000/api/v1/account?function=LOGOUT&session_id=${cookies.session_id}`);
+              removeCookie('session_id', {path:'/'});
+            }
+          }>Logout</Nav.Link>
+        </Nav> 
+        }
       </Navbar.Collapse>
     </Navbar>
   )
