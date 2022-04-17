@@ -3,6 +3,7 @@ from flask_cors import CORS
 import os
 from libraries.Functions import Functions
 from libraries.Collector import Collector
+import json
 
 app = Flask(__name__)
 CORS(app)

@@ -1,10 +1,14 @@
+import json
+import sqlite3
 import threading
 from time import sleep
-import yfinance as yf
+
 import pandas
-import sqlite3
-import json
+import yfinance as yf
+
 from libraries.Sequel import Sequel
+
+from datetime import date, datetime
 
 
 class Collector:
@@ -49,7 +53,8 @@ class Collector:
     def data(self, symbol):
         ticker = yf.Ticker(symbol)
         data = ticker.history(period='60d', interval="5m")
-        jsonData = pandas.DataFrame.to_json(data, orient='table')
+        jsonData = pandas.DataFrame.to_json(
+            data, orient='table', date_format='iso')
         return jsonData
 
     def json_to_db(self, json_data, symbol):
@@ -58,7 +63,9 @@ class Collector:
         with sqlite3.connect(self.database) as con:
             cur = con.cursor()
             for row in jData['data']:
-                time = row['Datetime']
+                time = datetime.strptime(
+                    row['Datetime'], '%Y-%m-%dT%H:%M:%S.%fZ')
+                time = time.strftime('%Y-%m-%d %H:%M:%S')
                 openr = row['Open']
                 high = row['High']
                 low = row['Low']

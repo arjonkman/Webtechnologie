@@ -2,7 +2,6 @@ import sqlite3
 from hashlib import md5
 from random import choice
 from string import ascii_letters
-
 import libraries.user_stock as user_stock
 
 
@@ -68,4 +67,4 @@ class Sequel:
         return {'status': 'success', 'session_id': session_id}
 
     def time_series(self, symbol):
-        return self.statement(f'SELECT * FROM time_series WHERE symbol = "{symbol}" ORDER BY date DESC')
+        return self.statement(f'SELECT close, open, high, low, date, volume FROM time_series WHERE symbol = "{symbol}" ORDER BY date DESC')
