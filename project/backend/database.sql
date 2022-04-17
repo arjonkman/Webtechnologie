@@ -31,7 +31,7 @@ CREATE TABLE `stock`(
 	`description` TEXT NOT NULL
 );
 CREATE TABLE `time_series`(
-	`date` DATETIME NOT NULL,
+	`date` TEXT NOT NULL,
 	`symbol` TEXT NOT NULL,
 	`open` FLOAT NOT NULL,
 	`high` FLOAT NOT NULL,
